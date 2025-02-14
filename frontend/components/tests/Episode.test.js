@@ -1,8 +1,9 @@
 // 👇 YOUR WORK STARTS ON LINE 28
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Episode from "../Episode"
+import { wait } from '@testing-library/user-event/dist/cjs/utils/index.js'
 
 // ❗ EXAMPLE EPISODE TEST OBJECT ❗
 const exampleEpisodeData = {
@@ -26,30 +27,42 @@ their own search, and meet a mysterious girl in the forest.",
 describe('Episode component', () => {
   test("renders without error", () => {
     // 👉 TASK: render the component passing episode data
-    render(screen.exampleEpisodeData)
+    render(<Episode episode={[exampleEpisodeData]} />)
     // 👉 TASK: print the simulated DOM using screen.debug
     screen.debug();
-
   })
+  
   test("renders texts and alt texts correctly", () => {
     // 👉 TASK: render the component passing episode data and getting the rerender utility
+    const { rerender } = render(<Episode episode={[]} />)
+    rerender(<Episode episode={[exampleEpisodeData]} />)
 
     // 👉 TASK: check that the summary renders to the DOM
+    waitFor(() => {
+      expect(screen.getByText(exampleEpisodeData.summary)).toBeInTheDocument(); // Check summary
+    })
 
     // 👉 TASK: check that the alt text "episode image" is present
+    waitFor(() => {
+      expect(screen.getByAltText("episode image")).toBeInTheDocument()
+    })
 
     // 👉 TASK: rerender the component passing episode data lacking an image
-    // ❗ Study the Episode component to understand what happens in this case
+    rerender(<Episode episode={[{ ...exampleEpisodeData, image: undefined }]} />)
 
     // 👉 TASK: check that the default image appears in the DOM
-    // ❗ Use querySelector to select the image by its src attribute
+    const defaultImage = screen.queryByAltText("generic episode image")
+    expect(defaultImage).toBeInTheDocument()
 
     // 👉 TASK: check that the "generic episode image" alt text is present
+    waitFor(() => {
+      expect(defaultImage).toHaveAttribute('src', expect.stringContaining('https://static.tvmaze.com/uploads/images/medium_landscape/342/855786.jpg'))
+    })
 
     // 👉 TASK: rerender the component passing an undefined episode
-    // ❗ Study the Episode component to understand what happens in this case
+    rerender(<Episode episode={undefined} />)
 
     // 👉 TASK: check that the "Loading episode..." text is present
-
+    expect(screen.getByText("Loading episode...")).toBeInTheDocument()
   })
 })
