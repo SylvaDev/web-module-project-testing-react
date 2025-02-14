@@ -1,6 +1,6 @@
 // 👇 YOUR WORK STARTS ON LINE 19
 import React from 'react'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen, getByTestId, getAllByTestId } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import server from '../../../backend/mock-server'
@@ -50,12 +50,25 @@ describe('Stranger Things App', () => {
     // ❗ Don't forget user actions need the await keyword
     // ❗ Use the selectOptions user action
     // ❗ Grab the select element using querySelector
+    const element = document.querySelector('#seasons')
+    await userEvent.selectOptions(element, '1')
 
     // 👉 TASK: create the following assertions:
     //    - The text "Season 2, Episode 1" exists in the DOM
     //    - The text "Chapter One: MADMAX" exists in the DOM
     //    - The text "One year after the events with the Upside Down and the Demogorgon" exists in the DOM
     // ❗ You will need { exact: false } to select the longer text
+    await waitFor(() => {
+      expect(screen.queryByText('Season 2, Episode 1')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('Chapter One: MADMAX')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('One year after the events with the Upside Down and the Demogorgon', {exact: false})).toBeInTheDocument()
+    })
 
   })
 })
