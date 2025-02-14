@@ -17,6 +17,8 @@ describe('Stranger Things App', () => {
   })
   test('App mounts without crashing', () => {
     // 👉 TASK: print the simulated DOM using screen.debug
+    render(<App />);
+    screen.debug();
   })
   test('App renders the correct texts', async () => {
     // 👉 TASK: click on the button that displays "Press to Get Show Data"
