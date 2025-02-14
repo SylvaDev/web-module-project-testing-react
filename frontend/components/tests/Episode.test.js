@@ -26,8 +26,9 @@ their own search, and meet a mysterious girl in the forest.",
 describe('Episode component', () => {
   test("renders without error", () => {
     // 👉 TASK: render the component passing episode data
-
+    render(screen.exampleEpisodeData)
     // 👉 TASK: print the simulated DOM using screen.debug
+    screen.debug();
 
   })
   test("renders texts and alt texts correctly", () => {
