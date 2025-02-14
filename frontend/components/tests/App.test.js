@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import server from '../../../backend/mock-server'
 import App from '../App'
+import { text } from 'express'
 
 describe('Stranger Things App', () => {
   let user
@@ -30,7 +31,20 @@ describe('Stranger Things App', () => {
     //    - The text "A love letter to the '80s classics that captivated a generation" exists in the DOM
     //    - The text "Select A Season" exists in the DOM
     // ❗ You will need { exact: false } to select the longer text
-    
+    await waitFor(() => {
+      expect(button).not.toBeInTheDocument()
+      expect(screen.queryByText('Press to Get Show Data')).not.toBeInTheDocument() 
+      expect(screen.queryByText('Stranger Things')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('Select A Season')).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('A love letter to the \'80s classics that captivated a generation', {exact: false})).toBeInTheDocument()
+    })
+  
 
     // 👉 TASK: select Season 2 from the dropdown
     // ❗ Don't forget user actions need the await keyword
