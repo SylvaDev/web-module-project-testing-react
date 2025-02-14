@@ -45,7 +45,6 @@ describe('Stranger Things App', () => {
       expect(screen.queryByText('A love letter to the \'80s classics that captivated a generation', {exact: false})).toBeInTheDocument()
     })
   
-
     // 👉 TASK: select Season 2 from the dropdown
     // ❗ Don't forget user actions need the await keyword
     // ❗ Use the selectOptions user action
